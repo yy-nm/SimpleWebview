@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/simplewebview_title_bg"
+        android:layout_alignParentTop="true"
+        >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SimpleWebView_ReturnButton"
+            android:background="@drawable/simplewebview_anim_button_return"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:text="返回"
+            android:textColor="#ffffffff"
+            android:layout_alignParentLeft="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:id="@+id/SimpleWebView_Title"
+            android:textColor="#ffffffff"/>
+
+    </RelativeLayout>
+
+    <com.pandadastudio.tool.webview.SimpleWebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/SimpleWebView"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#ffffffff"
+        android:layout_alignParentBottom="true"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SimpleWebView_GoBack"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/simplewebview_anim_button_goback"
+            android:layout_alignParentLeft="true"
+            android:background="#00000000"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SimpleWebView_GoForward"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/SimpleWebView_GoBack"
+            android:src="@drawable/simplewebview_anim_button_goforward" 
+            android:background="#00000000" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SimpleWebView_Reload"
+            android:layout_marginRight="30dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/simplewebview_anim_button_reload" 
+            android:background="#00000000"/>
+    </RelativeLayout>
+</RelativeLayout>
