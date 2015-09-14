@@ -33,6 +33,9 @@ public class SimpleWebView extends WebView {
 		initWebView();
 	}
 
+	/**
+	 * 初始化 WebView 组件
+	 */
 	private void initWebView() {
 		SimpleWebViewManager.Log("SimpleWebView--SimpleWebView");
 		WebView web = getWebView();
@@ -53,13 +56,6 @@ public class SimpleWebView extends WebView {
 				ViewGroup.LayoutParams.MATCH_PARENT));
 	}
 	
-	
-
-	public SimpleWebView(Context context, AttributeSet attrs, int defStyle,
-			boolean privateBrowsing) {
-		super(context, attrs, defStyle, privateBrowsing);
-		initWebView();
-	}
 
 	public SimpleWebView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
@@ -71,6 +67,10 @@ public class SimpleWebView extends WebView {
 		initWebView();
 	}
 
+	/***
+	 * 设置游览器代理
+	 * @param _userAgentString
+	 */
 	public void setUserAgentString(String _userAgentString) {
 		SimpleWebViewManager.Log("SimpleWebView--setUserAgentString:" + _userAgentString);
 		if (null != _userAgentString 
@@ -84,6 +84,10 @@ public class SimpleWebView extends WebView {
 		}
 	}
 	
+	/**
+	 * 设置游览器是否使用透明背景
+	 * @param _enable
+	 */
 	public void enableBackgroundColor(Boolean _enable)
 	{
 		SimpleWebViewManager.Log("SimpleWebView--enableBackgroundColor:" + _enable);

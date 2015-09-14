@@ -84,16 +84,6 @@ public class SimpleWebViewManager implements ComponentCallbacks
 	@Override
 	public void onActivityDestroyed(Activity activity) {
 		Log("SimpleWebViewManager--onActivityDestroyed");
-		/*
-		install(mCurApplication, mCurActivity);
-		SimpleWebViewManager swvw = getInstance();
-		if (null != swvw.mCurApplication)
-		{
-			swvw.mCurApplication.unregisterActivityLifecycleCallbacks(swvw);
-			swvw.mCurApplication.unregisterComponentCallbacks(swvw);
-		}
-		mManager = null;
-		*/
 	}
 	
 	/****************************************************************************/
@@ -189,6 +179,21 @@ public class SimpleWebViewManager implements ComponentCallbacks
 	// function called by Unity
 	/****************************************************************************/
 	
+	private static SimpleWebViewDialog getDialogByName(String _webViewName)
+	{
+		SimpleWebViewManager swvw = getInstance();
+		if (null != swvw.mCurActivity)
+		{
+			if (null != swvw.mDialogs && swvw.mDialogs.containsKey(_webViewName) 
+					&& null != swvw.mDialogs.get(_webViewName))
+			{
+				return swvw.mDialogs.get(_webViewName);
+			}
+		}
+		
+		return null;
+	}
+	
 	public static void sSimpleWebViewManager_CloseWebView(String _webViewName)
 	{
 		Log("SimpleWebViewManager--sSimpleWebViewManager_CloseWebView");
@@ -200,21 +205,16 @@ public class SimpleWebViewManager implements ComponentCallbacks
 	{
 		Log("SimpleWebViewManager--sSimpleWebViewManager_CloseWebView: " + _webViewName);
 		
-		SimpleWebViewManager swvw = getInstance();
-		if (null != swvw.mCurActivity)
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
 		{
-			if (null != swvw.mDialogs && swvw.mDialogs.containsKey(_webViewName) && null != swvw.mDialogs.get(_webViewName))
-			{
-				final SimpleWebViewDialog dialog = swvw.mDialogs.get(_webViewName);
-				swvw.mCurActivity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						dialog.closeWeb();
-					}
-				});
-				
-				return true;
-			}
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.closeWeb();
+				}
+			});
+			return true;
 		}
 		
 		return false;
@@ -231,33 +231,30 @@ public class SimpleWebViewManager implements ComponentCallbacks
 		Log("SimpleWebViewManager--sSimpleWebViewManager_OpenWebView: " + _webViewName);
 		
 		final SimpleWebViewManager swvw = getInstance();
-		if (null != swvw.mCurActivity)
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
 		{
-			if (null != swvw.mDialogs && swvw.mDialogs.containsKey(_webViewName) && null != swvw.mDialogs.get(_webViewName))
-			{
-				final SimpleWebViewDialog dialog = swvw.mDialogs.get(_webViewName);
-				swvw.mCurActivity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						dialog.setShowsDialog(true);
-						swvw.onDialogOpen(dialog);
-					}
-				});
-				
-				return true;
-			}
-			else if (null != swvw.mDialogs && !swvw.mDialogs.containsKey(_webViewName))
-			{
-				swvw.mCurActivity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						SimpleWebViewDialog dialog = new SimpleWebViewDialog(_webViewName, swvw);
-						dialog.show(swvw.mCurActivity.getFragmentManager(), _webViewName);
-					}
-				});
-				
-				return true;
-			}
+			swvw.mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.setShowsDialog(false);
+					swvw.onDialogCreated(dialog);
+				}
+			});
+			
+			return true;
+		}
+		else if (null != swvw.mCurActivity)
+		{
+			swvw.mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					SimpleWebViewDialog dialog = new SimpleWebViewDialog(_webViewName, swvw);
+					dialog.show(swvw.mCurActivity.getFragmentManager(), _webViewName);
+				}
+			});
+			
+			return true;
 		}
 		
 		return false;
@@ -267,24 +264,92 @@ public class SimpleWebViewManager implements ComponentCallbacks
 	{
 		Log("SimpleWebViewManager--sSimpleWebViewManager_loadUrl: " + _webViewName + ", _url: " + _url);
 		
-		SimpleWebViewManager swvw = getInstance();
-		if (null != swvw.mCurActivity)
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
 		{
-			if (null != swvw.mDialogs && swvw.mDialogs.containsKey(_webViewName) && null != swvw.mDialogs.get(_webViewName))
-			{
-				final SimpleWebViewDialog dialog = swvw.mDialogs.get(_webViewName);
-				swvw.mCurActivity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						dialog.loadUrl(_url);
-					}
-				});
-				
-				return true;
-			}
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.loadUrl(_url);
+				}
+			});
+			return true;
 		}
 		
 		return false;
+	}
+	
+	public static boolean sSimpleWebViewManager_LoadHtmlData(final String _webViewName, final String _htmlData)
+	{
+		Log("SimpleWebViewManager--sSimpleWebViewManager_loadUrl: " + _webViewName + ", _htmlData: " + _htmlData);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.loadData(_htmlData);
+				}
+			});
+			return true;
+		}
+		
+		return false;
+	}
+	
+	//loadDataWithBaseURL
+	public static boolean sSimpleWebViewManager_LoadDataWithBaseURL(final String _webViewName, final String _baseUrl
+			, final String _data)
+	{
+		Log("SimpleWebViewManager--sSimpleWebViewManager_LoadDataWithBaseURL: " + _webViewName 
+				+ ", _baseUrl: " + _baseUrl + ", _data: " + _data);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.loadDataWithBaseURL(_baseUrl, _data);
+				}
+			});
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public static void sSimpleWebViewManager_Reload(final String _webViewName)
+	{
+		Log("SimpleWebViewManager--sSimpleWebViewManager_Reload: " + _webViewName);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.reload();
+				}
+			});
+		}
+	}
+	
+	public static void sSimpleWebViewManager_StopLoading(final String _webViewName)
+	{
+		Log("SimpleWebViewManager--sSimpleWebViewManager_StopLoading: " + _webViewName);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.stopLoading();
+				}
+			});
+		}
 	}
 	
 	public static void sSimpleWebViewManager_ChangeWebViewSize(final String _webViewName
@@ -292,19 +357,15 @@ public class SimpleWebViewManager implements ComponentCallbacks
 	{
 		Log("SimpleWebViewManager--sSimpleWebViewManager_changeWebViewSize: " + _webViewName);
 		
-		SimpleWebViewManager swvw = getInstance();
-		if (null != swvw.mCurActivity)
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
 		{
-			if (null != swvw.mDialogs && swvw.mDialogs.containsKey(_webViewName) && null != swvw.mDialogs.get(_webViewName))
-			{
-				final SimpleWebViewDialog dialog = swvw.mDialogs.get(_webViewName);
-				swvw.mCurActivity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						dialog.changeViewRect(_top, _left, _bottom, _right);
-					}
-				});
-			}
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.changeViewRect(_top, _left, _bottom, _right);
+				}
+			});
 		}
 	}
 
@@ -312,23 +373,163 @@ public class SimpleWebViewManager implements ComponentCallbacks
 	{
 		Log("SimpleWebViewManager--sSimpleWebViewManager_ShowsDialog: " + _webViewName + ", _show: " + _show);
 		
-		SimpleWebViewManager swvw = getInstance();
-		if (null != swvw.mCurActivity)
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
 		{
-			if (null != swvw.mDialogs && swvw.mDialogs.containsKey(_webViewName) && null != swvw.mDialogs.get(_webViewName))
-			{
-				final SimpleWebViewDialog dialog = swvw.mDialogs.get(_webViewName);
-				swvw.mCurActivity.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						dialog.setShowsDialog(_show);
-					}
-				});
-				
-			}
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.setShowsDialog(_show);
+				}
+			});
 		}
 	}
 	
+	public String sSimpleWebViewManager_GetUserAgentString(String _webViewName) {
+		SimpleWebViewManager.Log("SimpleWebViewManager--sSimpleWebViewManager_GetUserAgentString");
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			return dialog.getUserAgentString();
+		}
+		
+		return null;
+	}
+	
+	public static void sSimpleWebViewManager_SetUserAgentString(String _webViewName, String _useragent)
+	{
+		SimpleWebViewManager.Log("SimpleWebViewManager--sSimpleWebViewManager_SetUserAgentString: " + _useragent);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			dialog.setUserAgentString(_useragent);
+		}
+	}
+	
+	public static void sSimpleWebViewManager_CleanCache(String _webViewName) 
+    {
+		sSimpleWebViewManager_CleanCache(_webViewName, false);
+    }
+    
+    public static void sSimpleWebViewManager_CleanCache(String _webViewName, final boolean _clear) 
+    {
+    	Log("SimpleWebViewManager--sSimpleWebViewManager_CleanCache: " + _webViewName + ", _clear: " + _clear);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.cleanCache(_clear);
+				}
+			});
+		}
+    }
+    
+    public static void sSimpleWebViewManager_EnableBackButton(String _webViewName, boolean _enable)
+	{
+		SimpleWebViewManager.Log("SimpleWebViewManager--sSimpleWebViewManager_EnableBackButton: " + _webViewName
+				+ ", _enable" + _enable);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			dialog.enableBackButton(_enable);
+		}
+	}
+
+    public static void sSimpleWebViewManager_EnableOverScroll(String _webViewName, final boolean _enable) 
+    {
+    	Log("SimpleWebViewManager--sSimpleWebViewManager_EnableOverScroll: " + _webViewName + ", _enable: " + _enable);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.enableOverScroll(_enable);
+				}
+			});
+		}
+    }
+    
+    public static void sSimpleWebViewManager_EnableZoom(String _webViewName, final boolean _enable) 
+    {
+    	Log("SimpleWebViewManager--sSimpleWebViewManager_EnableZoom: " + _webViewName + ", _enable: " + _enable);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.enableZoom(_enable);
+				}
+			});
+		}
+    }
+    
+    public static void sSimpleWebViewManager_UseWideViewPort(String _webViewName, final boolean _use) 
+    {
+    	Log("SimpleWebViewManager--sSimpleWebViewManager_UseWideViewPort: " + _webViewName + ", _use: " + _use);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			getInstance().mCurActivity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					dialog.useWideViewPort(_use);
+				}
+			});
+		}
+    }
+
+    public static void sSimpleWebViewManager_AddUrlScheme(String _webViewName, String _scheme)
+	{
+    	SimpleWebViewManager.Log("SimpleWebViewManager--sSimpleWebViewManager_AddUrlScheme: " + _webViewName
+				+ ", _scheme" + _scheme);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			dialog.addUrlScheme(_scheme);
+		}
+	}
+	
+    public static void sSimpleWebViewManager_RemoveUrlScheme(String _webViewName, String _scheme)
+	{
+    	SimpleWebViewManager.Log("SimpleWebViewManager--sSimpleWebViewManager_RemoveUrlScheme: " + _webViewName
+				+ ", _scheme" + _scheme);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			dialog.removeUrlScheme(_scheme);
+		}
+	}
+    
+    public static void sSimpleWebViewManager_clearUrlScheme(String _webViewName)
+	{
+    	SimpleWebViewManager.Log("SimpleWebViewManager--sSimpleWebViewManager_RemoveUrlScheme: " + _webViewName);
+		
+		final SimpleWebViewDialog dialog = getDialogByName(_webViewName);
+		if (null != dialog)
+		{
+			dialog.clearUrlScheme();
+		}
+	}
+
+	
+	
+	/**
+	 * 开启全屏网页(自带布局)
+	 * @param _url
+	 */
 	public static void sSimpleWebViewManager_OpenWebActivity(final String _url)
 	{
 		Log("SimpleWebViewManager--sSimpleWebViewManager_OpenWebActivity: " + _url);
@@ -366,7 +567,7 @@ public class SimpleWebViewManager implements ComponentCallbacks
 	}
 
 	@Override
-	public void onDialogClose(SimpleWebViewDialog _dialog) {
+	public void onDialogClosed(SimpleWebViewDialog _dialog) {
 		
 		Log("SimpleWebViewManager--onDialogClose: " + _dialog.getWebViewGUID());
 		
@@ -375,11 +576,11 @@ public class SimpleWebViewManager implements ComponentCallbacks
 			mDialogs.remove(_dialog.getWebViewGUID());
 		}
 		
-		CallUnityFunc(_dialog.getWebViewGUID(), "onDialogClose");
+		CallUnityFunc(_dialog.getWebViewGUID(), "onDialogClosed");
 	}
 	
 	@Override
-	public void onDialogOpen(SimpleWebViewDialog _dialog) {
+	public void onDialogCreated(SimpleWebViewDialog _dialog) {
 		Log("SimpleWebViewManager--onDialogOpen: " + _dialog.getWebViewGUID());
 		
 		if (null != mDialogs && !mDialogs.containsKey(_dialog.getWebViewGUID()))
@@ -387,24 +588,8 @@ public class SimpleWebViewManager implements ComponentCallbacks
 			mDialogs.put(_dialog.getWebViewGUID(), _dialog);
 		}
 		
-		CallUnityFunc(_dialog.getWebViewGUID(), "onDialogOpen");
+		CallUnityFunc(_dialog.getWebViewGUID(), "onDialogCreated");
 		
-	}
-	
-	@Override
-	public void onDialogWillHide(SimpleWebViewDialog _dialog)
-	{
-		Log("SimpleWebViewManager--onDialogWillHide: " + _dialog.getWebViewGUID());
-		
-		CallUnityFunc(_dialog.getWebViewGUID(), "onDialogWillHide");
-	}
-	
-	@Override
-	public void onDialogWillShow(SimpleWebViewDialog _dialog)
-	{
-		Log("SimpleWebViewManager--onDialogWillShow: " + _dialog.getWebViewGUID());
-		
-		CallUnityFunc(_dialog.getWebViewGUID(), "onDialogWillShow");
 	}
 
 	@Override

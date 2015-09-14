@@ -9,7 +9,6 @@ import java.util.HashSet;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.graphics.Bitmap;
@@ -21,7 +20,6 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
@@ -29,8 +27,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 
-public class SimpleWebViewDialog extends DialogFragment implements
-		OnKeyListener {
+public class SimpleWebViewDialog extends DialogFragment implements OnKeyListener {
 	private final String cWeb_JavascriptInterfaceName = "SimpleWebView";
 	private final String cWeb_MIMEType = "text/html";
 	private final String cWeb_Encoding = "UTF-8";
@@ -45,7 +42,6 @@ public class SimpleWebViewDialog extends DialogFragment implements
 	
 	private Rect mViewRect = null;
 	
-//	private boolean mNeedNotifyUnityToShowDialog = false;
 	private boolean mIsShowingDialog = false;
 
 	public String getWebViewGUID() {
@@ -183,9 +179,11 @@ public class SimpleWebViewDialog extends DialogFragment implements
     	this.dismiss();
     }
 
+    /**
+     * 重写父类的 setShowsDialog 使用 getDialog().show()/.hide() 函数来显示或者关闭界面
+     */
     public void setShowsDialog(boolean _show) {
     	SimpleWebViewManager.Log("SimpleWebViewDialog--setShowsDialog: " + _show);
-//    	super.setShowsDialog(_show);
     	if (_show)
     		this.getDialog().show();
     	else
@@ -203,6 +201,10 @@ public class SimpleWebViewDialog extends DialogFragment implements
     	updateViewRect(this.getDialog());
     }
     
+    /**
+     * 使用 padding 方式设置 dialog 的大小
+     * @param _dialog
+     */
     public void updateViewRect(Dialog _dialog) {
     	SimpleWebViewManager.Log("SimpleWebViewDialog--setShowsDialog" 
     			+ String.format("left: %d, right: %d, top: %d, bottom: %d", mViewRect.left, mViewRect.right
@@ -237,8 +239,7 @@ public class SimpleWebViewDialog extends DialogFragment implements
 				SimpleWebViewManager.Log("WebViewClient--onPageStarted");
 				if (null != mDialogListener)
 				{
-					mDialogListener
-							.onPageStarted(SimpleWebViewDialog.this, url);
+					mDialogListener.onPageStarted(SimpleWebViewDialog.this, url);
 				}
 				super.onPageStarted(view, url, favicon);
 			}
@@ -256,8 +257,7 @@ public class SimpleWebViewDialog extends DialogFragment implements
 			}
 
 			@Override
-			public void onReceivedError(WebView view, int errorCode,
-					String description, String failingUrl) {
+			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 
 				SimpleWebViewManager.Log("WebViewClient--onReceivedError");
 				if (null != mDialogListener)
@@ -272,9 +272,24 @@ public class SimpleWebViewDialog extends DialogFragment implements
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
 				SimpleWebViewManager.Log("WebViewClient--shouldOverrideUrlLoading");
+				
+				if (null == url || 0 == url.length())
+					return super.shouldOverrideUrlLoading(view, url);
+				int index = url.indexOf('?');
+				if (-1 == index)
+					return super.shouldOverrideUrlLoading(view, url);
+				String urlScheme = url.substring(0, index);
+				index = urlScheme.lastIndexOf('/');
+				if (-1 != index)
+				{
+					urlScheme = urlScheme.substring(index + 1);
+				}
+				
+				SimpleWebViewManager.Log("WebViewClient--shouldOverrideUrlLoading--scheme: " + urlScheme);
+				
 				for(String scheme : SimpleWebViewDialog.this.mSchemes)
 				{
-					if (url.startsWith(scheme))
+					if (urlScheme.startsWith(scheme))
 					{
 						if (null != mDialogListener)
 							mDialogListener.urlMatchedScheme(SimpleWebViewDialog.this, url);
@@ -304,13 +319,13 @@ public class SimpleWebViewDialog extends DialogFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		SimpleWebViewManager.Log("SimpleWebViewDialog--onCreate");
 		super.onCreate(savedInstanceState);
-//		setStyle(STYLE_NO_FRAME, android.R.style.Theme);
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		SimpleWebViewManager.Log("SimpleWebViewDialog--onCreateDialog");
 //		Dialog dialog = super.onCreateDialog(savedInstanceState);
+		// 使用 Theme_DeviceDefault_Light_Panel 可以达到无边框, 没有黑色背景
 		Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Panel);
 		// 先设置 WindowFeature, 再设置 ContentView, 最后设置背景以及全屏属性, 顺序错误会发生异常
 		//  android.util.AndroidRuntimeException: requestFeature()
@@ -328,11 +343,16 @@ public class SimpleWebViewDialog extends DialogFragment implements
 		window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 		window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
 		window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//		window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		updateViewRect(dialog);
 		
 		if (null != mDialogListener)
-			mDialogListener.onDialogOpen(this);
+			mDialogListener.onDialogCreated(this);
+		
+		// 刚创建的 dialog 默认是不现实的, 不能直接调用使用 getDialog() 方法的函数, 因为当前 mDialog 变量还是 null,
+		// 只有当前函数结束之后才会生成 mDialog 对象
+//		this.setShowsDialog(false);
+		dialog.hide();
+		
 		return dialog;
 	}
 
@@ -340,14 +360,10 @@ public class SimpleWebViewDialog extends DialogFragment implements
 	public void onStart() {
 		super.onStart();
 		SimpleWebViewManager.Log("SimpleWebViewDialog--onStart");
-//		if (!mNeedNotifyUnityToShowDialog)
-//			return;
-//		
-//		mNeedNotifyUnityToShowDialog = false;
-//		if (null != this.mDialogListener) {
-//			mDialogListener.onDialogWillShow(this);
-//		}
 		
+		// 为了方式出现网页时, 游戏从前台切入后台, 然后返回前台时游戏界面是一片黑色
+		//, 这个因为 android 只渲染 active 的层, 所以这边需要把 dialog 隐藏, 然后通过 Unity 层延时调用显示
+		// dialog 的机制
 		if (mIsShowingDialog)
 		{
 			mIsShowingDialog = false;
@@ -359,11 +375,6 @@ public class SimpleWebViewDialog extends DialogFragment implements
 	public void onStop() {
 		SimpleWebViewManager.Log("SimpleWebViewDialog--onStop");
 		
-//		mNeedNotifyUnityToShowDialog = true;
-//		
-//		if (null != this.mDialogListener) {
-//			mDialogListener.onDialogWillHide(this);
-//		}
 		mIsShowingDialog = true;
 		super.onStop();
 	}
@@ -373,11 +384,12 @@ public class SimpleWebViewDialog extends DialogFragment implements
 
 		SimpleWebViewManager.Log("SimpleWebViewDialog--onDestroyView");
 		if (null != this.mDialogListener) {
-			mDialogListener.onDialogClose(this);
+			mDialogListener.onDialogClosed(this);
 		}
 		super.onDestroyView();
 	}
 
+	// 对于 返回键特殊处理, 其他按钮事件只做通知处理
 	@Override
 	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 		if (KeyEvent.KEYCODE_BACK == keyCode) {
@@ -413,12 +425,9 @@ public class SimpleWebViewDialog extends DialogFragment implements
 
 		void onDialogOnKey(SimpleWebViewDialog _dialog, int _keyCode);
 
-		void onDialogClose(SimpleWebViewDialog _dialog);
+		void onDialogClosed(SimpleWebViewDialog _dialog);
 		
-		void onDialogOpen(SimpleWebViewDialog _dialog);
-		
-		void onDialogWillHide(SimpleWebViewDialog _dialog);
-		void onDialogWillShow(SimpleWebViewDialog _dialog);
+		void onDialogCreated(SimpleWebViewDialog _dialog);
 	}
 
 	public interface SimpleWebViewListener {

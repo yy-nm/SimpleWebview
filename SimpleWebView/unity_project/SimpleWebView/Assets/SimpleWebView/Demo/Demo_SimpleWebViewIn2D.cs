@@ -16,10 +16,10 @@ public class Demo_SimpleWebViewIn2D : MonoBehaviour {
 		if (! web.isIstalled())
 			web.install();
 
+		web.clearCache(true);
 		web.openWebView();
-	
-		web.onWebViewOpen += webViewOpened;
-
+		web.changeWebViewSize(100, 100, 100, 100);
+		web.loadUrl("http://www.baidu.com");
 
 	}
 
@@ -29,15 +29,6 @@ public class Demo_SimpleWebViewIn2D : MonoBehaviour {
 		{
 			web.closeWebView();
 		}
-	}
-
-
-	public bool webViewOpened(SimpleWebView _webView)
-	{
-		_webView.changeWebViewSize(new Rect(100, 100, 100, 100));
-		_webView.loadUrl("http://www.baidu.com");
-
-		return true;
 	}
 
 	public void clickOpenWeb()

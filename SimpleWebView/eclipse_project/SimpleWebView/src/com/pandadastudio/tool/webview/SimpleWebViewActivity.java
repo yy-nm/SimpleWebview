@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+// 必须主动 import R 文件, 这是因为这个工程中的  package 与真实打包的 unity 中的 bundle id 是不一样
+// 这个就会导致 R 中的 id/attr/... 找不到的问题
 import com.pandadastudio.tool.webview.R;
 
 public class SimpleWebViewActivity extends Activity 
@@ -29,6 +31,7 @@ public class SimpleWebViewActivity extends Activity
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// 去除最上面的 title 栏
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setContentView(R.layout.simplewebview_activity);
@@ -46,16 +49,16 @@ public class SimpleWebViewActivity extends Activity
 		mButton_goForward = (ImageButton) this.findViewById(R.id.SimpleWebView_GoForward);
 		ImageButton web_button_reload = (ImageButton) this.findViewById(R.id.SimpleWebView_Reload);
 		
+		// 返回游戏场景
 		if (null != web_button_return)
 			web_button_return.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// 返回
 					SimpleWebViewActivity.this.finish();
 				}
 			});
 
-		
+		// 返回到上一个页面
 		if (null != mButton_goBack) {
 			mButton_goBack.setEnabled(false);
 			mButton_goBack.setOnClickListener(new OnClickListener() {
@@ -72,12 +75,8 @@ public class SimpleWebViewActivity extends Activity
 				}
 			});
 		}
-		else
-		{
-			SimpleWebViewManager.Log("SimpleWebViewActivity--onClick--web_button_goBack is null");
-		}
-
 		
+		// 游览器中的前进
 		if (null != mButton_goForward) {
 			mButton_goForward.setEnabled(false);
 			mButton_goForward.setOnClickListener(new OnClickListener() {
@@ -96,6 +95,7 @@ public class SimpleWebViewActivity extends Activity
 			});
 		}
 		
+		// 重载当前网页
 		if (null != web_button_reload)
 		{
 			web_button_reload.setOnClickListener(new OnClickListener() {
@@ -108,7 +108,7 @@ public class SimpleWebViewActivity extends Activity
 			});
 		}
 		
-
+		// 更新网页的 title
 		WebChromeClient wcc = new WebChromeClient() {
 			@Override
 			public void onReceivedTitle(WebView view, String title) {
@@ -129,7 +129,8 @@ public class SimpleWebViewActivity extends Activity
 				mWeb.loadUrl(url);
 				return true;
 			}
-
+			
+			//页面加载完成之后才激活后退/前进操作
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
