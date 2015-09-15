@@ -8,12 +8,13 @@ namespace Ninja3.Tool.Web
 
 	public class SimpleWebViewPluginAndroid : SimpleWebViewPlugin
 	{
+#if UNITY_ANDROID
 		private AndroidJavaClass jc = null;
 		private AndroidJavaObject currentActivity = null;
 		private AndroidJavaObject application = null;
 		private AndroidJavaClass simpleWebViewPlugin = null;
 
-#if UNITY_ANDROID
+
 		public SimpleWebViewPluginAndroid()
 		{
 			this.jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
