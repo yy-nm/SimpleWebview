@@ -20,12 +20,13 @@ extern UIViewController* UnityGetGLViewController();
 - (id) initWithFrame:(CGRect)frame withGUID:(NSString *) guid addDelegate:(id<SimpleWebViewDelegate>) delegate
 {
     [SimpleWebViewManager Log:@"SimpleWebView--initWithFrame, guid: %@" withMsg: guid];
+    
     self = [super initWithFrame:frame];
     [self setDelegate:self];
     
     mDelegate = delegate;
     self->mGUID = guid;
-    mSchemes = [NSMutableSet init];
+    mSchemes = [[NSMutableSet alloc] init];
     
     if (nil != mDelegate)
         [mDelegate webViewCreated:self];
@@ -78,14 +79,33 @@ extern UIViewController* UnityGetGLViewController();
 
 - (void) changeSizeWithPaddingTop:(int) paddingTop withPaddingBottom:(int) paddingBottom withPaddingLeft:(int) paddingLeft withPaddingRight:(int) paddingRight
 {
-    [SimpleWebViewManager Log:[[NSString alloc] initWithFormat:@"SimpleWebView--changeSizeWithPaddingTop: top: %d, bottom: %d, left: %d, right: %d", paddingTop
-                               , paddingBottom, paddingLeft, paddingRight]];
+    [SimpleWebViewManager Log:[[NSString alloc] initWithFormat:@"SimpleWebView--changeSizeWithPaddingTop: top: %d, bottom: %d, left: %d, right: %d", paddingTop, paddingBottom, paddingLeft, paddingRight]];
     UIView *view = UnityGetGLViewController().view;
     CGRect viewRect = view.frame;
     
+    [SimpleWebViewManager Log:@"SimpleWebView--changeSizeWithPaddingTop: width: %f, height: %f, x: %f, y: %f"
+     , viewRect.size.width, viewRect.size.height, viewRect.origin.x, viewRect.origin.y];
+    
+    CGFloat width = viewRect.size.width;
+    CGFloat height = viewRect.size.height;
+    
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    switch (orientation) {
+        case UIDeviceOrientationLandscapeLeft:
+        case UIDeviceOrientationLandscapeRight:
+        {
+            width = viewRect.size.height;
+            height = viewRect.size.width;
+        }
+            break;
+        case UIDeviceOrientationPortrait:
+        case UIDeviceOrientationPortraitUpsideDown:
+            break;
+    }
+    
     CGRect webViewRect = CGRectMake(paddingLeft, paddingBottom
-                                    , viewRect.size.width - paddingLeft - paddingRight
-                                    , viewRect.size.height - paddingBottom - paddingTop);
+                                    , width - paddingLeft - paddingRight
+                                    , height - paddingBottom - paddingTop);
     self.frame = webViewRect;
 }
 

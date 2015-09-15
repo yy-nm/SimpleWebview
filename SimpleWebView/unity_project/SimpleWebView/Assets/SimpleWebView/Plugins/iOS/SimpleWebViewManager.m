@@ -11,7 +11,6 @@
 
 #import "SimpleWebViewmanager.h"
 
-
 // params: gameObjectName, functionName, paramForFunc
 void UnitySendMessage(const char *, const char *, const char *);
 
@@ -19,10 +18,46 @@ void UnitySendMessage(const char *, const char *, const char *);
 
 - (id) init
 {
-    mWebs = [NSMutableDictionary init];
-    mEnableLog = FALSE;
+    self = [super init];
+    self->mWebs = [[NSMutableDictionary alloc] init];
+    self->mEnableLog = FALSE;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(uiRotate:) name:UIDeviceOrientationDidChangeNotification object:nil];
     return self;
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void) uiRotate:(NSNotification *) notification
+{
+    [SimpleWebViewManager Log:@"SimpleWebViewManager--uiRotate"];
+    
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    
+    if (UIDeviceOrientationLandscapeLeft == orientation)
+    {
+        [SimpleWebViewManager Log:@"UIDeviceOrientationLandscapeLeft"];
+    }
+    else if(UIDeviceOrientationLandscapeRight == orientation)
+    {
+        [SimpleWebViewManager Log:@"UIDeviceOrientationLandscapeRight"];
+    }
+    else if (UIDeviceOrientationPortrait == orientation)
+    {
+        [SimpleWebViewManager Log:@"UIDeviceOrientationPortrait"];
+    }
+    else if (UIDeviceOrientationPortraitUpsideDown == orientation)
+    {
+        [SimpleWebViewManager Log:@"UIDeviceOrientationPortraitUpsideDown"];
+    }
+    else {
+
+        [SimpleWebViewManager Log:@"%d", orientation];
+
+    }
 }
 
 + (SimpleWebViewManager *) getInstance
@@ -31,7 +66,7 @@ void UnitySendMessage(const char *, const char *, const char *);
     
     if (nil == s_Manager)
     {
-        s_Manager = [SimpleWebViewManager init];
+        s_Manager = [[SimpleWebViewManager alloc] init];
     }
     
     return s_Manager;
@@ -337,7 +372,7 @@ void UnitySendMessage(const char *, const char *, const char *);
     if (![mWebs.allKeys containsObject:webView.GUID])
         [mWebs setObject:webView forKey:webView.GUID];
     
-    UnitySendMessage([webView.GUID UTF8String], "onDialogCreated", NULL);
+    UnitySendMessage([webView.GUID UTF8String], "onDialogCreated", "");
 }
 
 - (void) webViewClosed:(SimpleWebView *) webView

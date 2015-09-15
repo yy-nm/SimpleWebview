@@ -16,6 +16,8 @@
 @private NSMutableDictionary *mWebs;
 @private BOOL mEnableLog;
 }
+-(id) init;
+-(void) uiRotate:(NSNotification *) notification;
 
 + (SimpleWebViewManager *) getInstance;
 
