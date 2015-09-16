@@ -9,10 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "SimpleWebViewmanager.h"
+#import "SimpleWebViewManager.h"
+#import "SimpleWebViewActivity.h"
 
 // params: gameObjectName, functionName, paramForFunc
 void UnitySendMessage(const char *, const char *, const char *);
+
+//
+static const NSString *s_Web_MIMEType = @"text/html";
+static const NSString *s_Web_Encoding = @"UTF-8";
 
 @implementation SimpleWebViewManager
 
@@ -158,9 +163,6 @@ void UnitySendMessage(const char *, const char *, const char *);
 {
     [SimpleWebViewManager Log:@"SimpleWebViewManager--LoadHtmlData: %@, data: %@"
      , webViewName, data];
-    
-    static NSString *s_Web_MIMEType = @"text/html";
-    static NSString *s_Web_Encoding = @"UTF-8";
     
     SimpleWebView *web = [SimpleWebViewManager GetDialogByName:webViewName];
     if (nil != web)
@@ -358,9 +360,9 @@ void UnitySendMessage(const char *, const char *, const char *);
 + (void) OpenWebActivity:(NSString *) url
 {
     [SimpleWebViewManager Log:@"SimpleWebViewManager--OpenWebActivity: %@", url];
-    
-    [SimpleWebViewManager Log:@"not support now"];
-    // TODO
+
+    SimpleWebViewActivity *activity = [SimpleWebViewActivity createFromXib];
+    [[activity web] loadRequest:[[NSURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:url]]];
 }
 
 

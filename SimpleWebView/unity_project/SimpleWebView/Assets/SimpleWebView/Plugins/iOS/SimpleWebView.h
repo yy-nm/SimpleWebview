@@ -39,6 +39,9 @@
 - (void) clearScheme;
 
 - (void) changeSizeWithPaddingTop:(int) paddingTop withPaddingBottom:(int) paddingBottom withPaddingLeft:(int) paddingLeft withPaddingRight:(int) paddingRight;
+- (void) changeSize:(CGRect)frame WithPaddingTop:(int) paddingTop withPaddingBottom:(int) paddingBottom withPaddingLeft:(int) paddingLeft withPaddingRight:(int) paddingRight;
+
++ (CGRect) getRealRect:(CGRect) frame;
 @end
 
 

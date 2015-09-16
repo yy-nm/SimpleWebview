@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "UnityAppController.h"
+
 #import "SimpleWebView.h"
-#import "SimpleWebViewmanager.h"
+#import "SimpleWebViewManager.h"
 
 extern UIViewController* UnityGetGLViewController();
-
+extern inline UnityAppController*	GetAppController();
 
 @implementation SimpleWebView
 
@@ -45,7 +47,7 @@ extern UIViewController* UnityGetGLViewController();
 
 - (NSString *) GUID
 {
-    [SimpleWebViewManager Log:@"SimpleWebView--GUID: %@" withMsg: mGUID];
+//    [SimpleWebViewManager Log:@"SimpleWebView--GUID: %@" withMsg: mGUID];
     return mGUID;
 }
 
@@ -80,35 +82,52 @@ extern UIViewController* UnityGetGLViewController();
 - (void) changeSizeWithPaddingTop:(int) paddingTop withPaddingBottom:(int) paddingBottom withPaddingLeft:(int) paddingLeft withPaddingRight:(int) paddingRight
 {
     [SimpleWebViewManager Log:[[NSString alloc] initWithFormat:@"SimpleWebView--changeSizeWithPaddingTop: top: %d, bottom: %d, left: %d, right: %d", paddingTop, paddingBottom, paddingLeft, paddingRight]];
-    UIView *view = UnityGetGLViewController().view;
-    CGRect viewRect = view.frame;
     
-    [SimpleWebViewManager Log:@"SimpleWebView--changeSizeWithPaddingTop: width: %f, height: %f, x: %f, y: %f"
-     , viewRect.size.width, viewRect.size.height, viewRect.origin.x, viewRect.origin.y];
+    UIView *view = [UnityGetGLViewController() view];
     
-    CGFloat width = viewRect.size.width;
-    CGFloat height = viewRect.size.height;
+    CGRect frame = [SimpleWebView getRealRect:view.frame];
     
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    [self changeSize:frame WithPaddingTop:paddingTop withPaddingBottom:paddingBottom withPaddingLeft:paddingLeft withPaddingRight:paddingRight];
+}
+
+- (void) changeSize:(CGRect)frame WithPaddingTop:(int) paddingTop withPaddingBottom:(int) paddingBottom withPaddingLeft:(int) paddingLeft withPaddingRight:(int) paddingRight
+{
+    
+    
+    CGRect webViewRect = CGRectMake(paddingLeft, paddingBottom
+                                    , frame.size.width - paddingLeft - paddingRight
+                                    , frame.size.height - paddingBottom - paddingTop);
+    self.frame = webViewRect;
+    
+    [SimpleWebViewManager Log:@"SimpleWebView--changeSize: width: %f, height: %f, x: %f, y: %f"
+     , webViewRect.size.width, webViewRect.size.height, webViewRect.origin.x, webViewRect.origin.y];
+}
+
++ (CGRect) getRealRect:(CGRect) frame
+{
+    CGFloat width = frame.size.width;
+    CGFloat height = frame.size.height;
+    
+    //    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    UIInterfaceOrientation orientation = [GetAppController() interfaceOrientation];
+    
     switch (orientation) {
-        case UIDeviceOrientationLandscapeLeft:
-        case UIDeviceOrientationLandscapeRight:
-        {
-            width = viewRect.size.height;
-            height = viewRect.size.width;
-        }
-            break;
+            
         case UIDeviceOrientationPortrait:
         case UIDeviceOrientationPortraitUpsideDown:
             break;
+        case UIDeviceOrientationLandscapeLeft:
+        case UIDeviceOrientationLandscapeRight:
+        default:
+        {
+            frame.size.height = width;
+            frame.size.width = height;
+        }
+            break;
     }
     
-    CGRect webViewRect = CGRectMake(paddingLeft, paddingBottom
-                                    , width - paddingLeft - paddingRight
-                                    , height - paddingBottom - paddingTop);
-    self.frame = webViewRect;
+    return frame;
 }
-
 
 
 //--- UIWebViewDelegate
