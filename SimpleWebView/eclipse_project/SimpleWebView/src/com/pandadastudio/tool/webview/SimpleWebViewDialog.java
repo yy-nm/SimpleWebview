@@ -330,6 +330,9 @@ public class SimpleWebViewDialog extends DialogFragment implements OnKeyListener
 		// 先设置 WindowFeature, 再设置 ContentView, 最后设置背景以及全屏属性, 顺序错误会发生异常
 		//  android.util.AndroidRuntimeException: requestFeature()
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		//去除 android 虚拟按键
+		dialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 		FrameLayout fl = new FrameLayout(dialog.getContext());
 		fl.setVisibility(View.VISIBLE);
