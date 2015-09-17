@@ -1,9 +1,8 @@
 //
 //  SimplewebViewManager.m
-//  SimpleWebView
 //
-//  Created by YH-0023 on 9/14/15.
-//  Copyright (c) 2015 YH-0023. All rights reserved.
+//  Created by mardyu(yuxingde@pandadastudio.com) on 9/14/15.
+//  Copyright (c) 2015 mardyu(yuxingde@pandadastudio.com). All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

@@ -1,8 +1,7 @@
 //
 //  SimpleWebViewActivity.m
-//  Unity-iPhone
 //
-//  Created by YH-0023 on 9/16/15.
+//  Created by mardyu(yuxingde@pandadastudio.com) on 9/16/15.
 //
 //
 
@@ -13,9 +12,11 @@
 extern UIViewController* UnityGetGLViewController();
 
 //
-static const NSString *s_jsCodeForGetTitleOfWeb = @"document.title";
+static NSString * const s_jsCodeForGetTitleOfWeb = @"document.title";
 
-static const NSString *s_xibFileName = @"SimpleWebView";
+static NSString * const s_xibFileName = @"SimpleWebView";
+static NSString * const s_bundleName = @"SimpleWebView";
+static NSString * const s_bundleType = @"bundle";
 
 static const int s_webviewPaddingTop = 50;
 static const int s_webviewPaddingBottom = 50;
@@ -48,7 +49,16 @@ static const int s_webviewPaddingBottom = 50;
 
 -(id) initWithBundle
 {
-    NSArray *objs = [[NSBundle mainBundle] loadNibNamed:s_xibFileName owner:self options:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:s_bundleName ofType:s_bundleType];
+    NSBundle *bundle = [NSBundle bundleWithPath:path];
+    if (! [bundle isLoaded])
+        [bundle load];
+    
+//    for (NSBundle *b in [NSBundle allBundles]) {
+//        [SimpleWebViewManager Log:@"id: %@, path: %@, url: %@", b.bundleIdentifier, b.bundlePath, b.bundleURL];
+//    }
+    
+    NSArray *objs = [bundle loadNibNamed:s_xibFileName owner:self options:nil];
     if (nil == objs || 0 == objs.count)
     {
         [SimpleWebViewManager Log:@"can find specify config file"];

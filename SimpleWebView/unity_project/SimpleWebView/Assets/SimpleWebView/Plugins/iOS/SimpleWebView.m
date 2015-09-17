@@ -1,8 +1,7 @@
 //
 //  SimpleWebViewDialog.m
-//  Unity-iPhone
 //
-//  Created by YH-0023 on 9/14/15.
+//  Created by mardyu(yuxingde@pandadastudio.com) on 9/14/15.
 //
 //
 
