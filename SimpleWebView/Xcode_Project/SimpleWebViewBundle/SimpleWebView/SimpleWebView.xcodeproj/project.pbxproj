@@ -1,0 +1,304 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		578512B31BAA6A0300D40709 /* SimpleWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 578512A91BAA6A0300D40709 /* SimpleWebView.xib */; };
+		578512B41BAA6A0300D40709 /* simplewebview_button_goback_n.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512AA1BAA6A0300D40709 /* simplewebview_button_goback_n.png */; };
+		578512B51BAA6A0300D40709 /* simplewebview_button_goback_p.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512AB1BAA6A0300D40709 /* simplewebview_button_goback_p.png */; };
+		578512B61BAA6A0300D40709 /* simplewebview_button_goforward_n.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512AC1BAA6A0300D40709 /* simplewebview_button_goforward_n.png */; };
+		578512B71BAA6A0300D40709 /* simplewebview_button_goforward_p.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512AD1BAA6A0300D40709 /* simplewebview_button_goforward_p.png */; };
+		578512B81BAA6A0300D40709 /* simplewebview_button_reload_n.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512AE1BAA6A0300D40709 /* simplewebview_button_reload_n.png */; };
+		578512B91BAA6A0300D40709 /* simplewebview_button_reload_p.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512AF1BAA6A0300D40709 /* simplewebview_button_reload_p.png */; };
+		578512BA1BAA6A0300D40709 /* simplewebview_title_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512B01BAA6A0300D40709 /* simplewebview_title_bg.png */; };
+		578512BB1BAA6A0300D40709 /* simplewebview_title_button_return_n.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512B11BAA6A0300D40709 /* simplewebview_title_button_return_n.png */; };
+		578512BC1BAA6A0300D40709 /* simplewebview_title_button_return_p.png in Resources */ = {isa = PBXBuildFile; fileRef = 578512B21BAA6A0300D40709 /* simplewebview_title_button_return_p.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		578512821BAA68FD00D40709 /* SimpleWebView.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleWebView.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		578512861BAA68FD00D40709 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		578512A91BAA6A0300D40709 /* SimpleWebView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleWebView.xib; sourceTree = "<group>"; };
+		578512AA1BAA6A0300D40709 /* simplewebview_button_goback_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_button_goback_n.png; sourceTree = "<group>"; };
+		578512AB1BAA6A0300D40709 /* simplewebview_button_goback_p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_button_goback_p.png; sourceTree = "<group>"; };
+		578512AC1BAA6A0300D40709 /* simplewebview_button_goforward_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_button_goforward_n.png; sourceTree = "<group>"; };
+		578512AD1BAA6A0300D40709 /* simplewebview_button_goforward_p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_button_goforward_p.png; sourceTree = "<group>"; };
+		578512AE1BAA6A0300D40709 /* simplewebview_button_reload_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_button_reload_n.png; sourceTree = "<group>"; };
+		578512AF1BAA6A0300D40709 /* simplewebview_button_reload_p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_button_reload_p.png; sourceTree = "<group>"; };
+		578512B01BAA6A0300D40709 /* simplewebview_title_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_title_bg.png; sourceTree = "<group>"; };
+		578512B11BAA6A0300D40709 /* simplewebview_title_button_return_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_title_button_return_n.png; sourceTree = "<group>"; };
+		578512B21BAA6A0300D40709 /* simplewebview_title_button_return_p.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = simplewebview_title_button_return_p.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5785127F1BAA68FD00D40709 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		578512791BAA68FD00D40709 = {
+			isa = PBXGroup;
+			children = (
+				578512841BAA68FD00D40709 /* SimpleWebView */,
+				578512831BAA68FD00D40709 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		578512831BAA68FD00D40709 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				578512821BAA68FD00D40709 /* SimpleWebView.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		578512841BAA68FD00D40709 /* SimpleWebView */ = {
+			isa = PBXGroup;
+			children = (
+				578512A81BAA6A0300D40709 /* SimpleWebView */,
+				578512851BAA68FD00D40709 /* Supporting Files */,
+			);
+			path = SimpleWebView;
+			sourceTree = "<group>";
+		};
+		578512851BAA68FD00D40709 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				578512861BAA68FD00D40709 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		578512A81BAA6A0300D40709 /* SimpleWebView */ = {
+			isa = PBXGroup;
+			children = (
+				578512A91BAA6A0300D40709 /* SimpleWebView.xib */,
+				578512AA1BAA6A0300D40709 /* simplewebview_button_goback_n.png */,
+				578512AB1BAA6A0300D40709 /* simplewebview_button_goback_p.png */,
+				578512AC1BAA6A0300D40709 /* simplewebview_button_goforward_n.png */,
+				578512AD1BAA6A0300D40709 /* simplewebview_button_goforward_p.png */,
+				578512AE1BAA6A0300D40709 /* simplewebview_button_reload_n.png */,
+				578512AF1BAA6A0300D40709 /* simplewebview_button_reload_p.png */,
+				578512B01BAA6A0300D40709 /* simplewebview_title_bg.png */,
+				578512B11BAA6A0300D40709 /* simplewebview_title_button_return_n.png */,
+				578512B21BAA6A0300D40709 /* simplewebview_title_button_return_p.png */,
+			);
+			path = SimpleWebView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		578512811BAA68FD00D40709 /* SimpleWebView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 578512891BAA68FD00D40709 /* Build configuration list for PBXNativeTarget "SimpleWebView" */;
+			buildPhases = (
+				5785127E1BAA68FD00D40709 /* Sources */,
+				5785127F1BAA68FD00D40709 /* Frameworks */,
+				578512801BAA68FD00D40709 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SimpleWebView;
+			productName = SimpleWebView;
+			productReference = 578512821BAA68FD00D40709 /* SimpleWebView.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5785127A1BAA68FD00D40709 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = pandadastudio;
+				TargetAttributes = {
+					578512811BAA68FD00D40709 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+				};
+			};
+			buildConfigurationList = 5785127D1BAA68FD00D40709 /* Build configuration list for PBXProject "SimpleWebView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 578512791BAA68FD00D40709;
+			productRefGroup = 578512831BAA68FD00D40709 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				578512811BAA68FD00D40709 /* SimpleWebView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		578512801BAA68FD00D40709 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				578512B61BAA6A0300D40709 /* simplewebview_button_goforward_n.png in Resources */,
+				578512BB1BAA6A0300D40709 /* simplewebview_title_button_return_n.png in Resources */,
+				578512BA1BAA6A0300D40709 /* simplewebview_title_bg.png in Resources */,
+				578512B51BAA6A0300D40709 /* simplewebview_button_goback_p.png in Resources */,
+				578512B31BAA6A0300D40709 /* SimpleWebView.xib in Resources */,
+				578512B81BAA6A0300D40709 /* simplewebview_button_reload_n.png in Resources */,
+				578512B71BAA6A0300D40709 /* simplewebview_button_goforward_p.png in Resources */,
+				578512B41BAA6A0300D40709 /* simplewebview_button_goback_n.png in Resources */,
+				578512B91BAA6A0300D40709 /* simplewebview_button_reload_p.png in Resources */,
+				578512BC1BAA6A0300D40709 /* simplewebview_title_button_return_p.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5785127E1BAA68FD00D40709 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		578512871BAA68FD00D40709 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		578512881BAA68FD00D40709 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5785128A1BAA68FD00D40709 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = SimpleWebView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		5785128B1BAA68FD00D40709 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = SimpleWebView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5785127D1BAA68FD00D40709 /* Build configuration list for PBXProject "SimpleWebView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				578512871BAA68FD00D40709 /* Debug */,
+				578512881BAA68FD00D40709 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		578512891BAA68FD00D40709 /* Build configuration list for PBXNativeTarget "SimpleWebView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5785128A1BAA68FD00D40709 /* Debug */,
+				5785128B1BAA68FD00D40709 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5785127A1BAA68FD00D40709 /* Project object */;
+}
