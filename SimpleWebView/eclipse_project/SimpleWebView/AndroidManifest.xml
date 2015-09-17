@@ -12,7 +12,9 @@
     <application>
         <activity
             android:name = "com.pandadastudio.tool.webview.SimpleWebViewActivity"
-            android:configChanges="orientation|screenSize|locale" />
+            android:configChanges = "orientation|screenSize|locale" 
+            android:theme = "@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation = "sensorLandscape"/>
     </application>
 
 </manifest>

@@ -33,6 +33,8 @@ public class SimpleWebViewActivity extends Activity
 		super.onCreate(savedInstanceState);
 		// 去除最上面的 title 栏
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//去除 android 虚拟按键
+		getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 
 		setContentView(R.layout.simplewebview_activity);
 
