@@ -15,8 +15,8 @@
 void UnitySendMessage(const char *, const char *, const char *);
 
 //
-static const NSString *s_Web_MIMEType = @"text/html";
-static const NSString *s_Web_Encoding = @"UTF-8";
+static NSString * const s_Web_MIMEType = @"text/html";
+static NSString * const s_Web_Encoding = @"UTF-8";
 
 @implementation SimpleWebViewManager
 
