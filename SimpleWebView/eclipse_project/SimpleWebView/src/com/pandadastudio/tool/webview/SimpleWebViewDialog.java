@@ -7,6 +7,7 @@ package com.pandadastudio.tool.webview;
 
 import java.util.HashSet;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
@@ -326,13 +328,12 @@ public class SimpleWebViewDialog extends DialogFragment implements OnKeyListener
 		SimpleWebViewManager.Log("SimpleWebViewDialog--onCreateDialog");
 //		Dialog dialog = super.onCreateDialog(savedInstanceState);
 		// 使用 Theme_DeviceDefault_Light_Panel 可以达到无边框, 没有黑色背景
-		Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Panel);
+		Dialog dialog = new Dialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
 		// 先设置 WindowFeature, 再设置 ContentView, 最后设置背景以及全屏属性, 顺序错误会发生异常
 		//  android.util.AndroidRuntimeException: requestFeature()
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-		//去除 android 虚拟按键
-		dialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+		addFullScreenFeatureInWindow(dialog.getWindow());
 
 		FrameLayout fl = new FrameLayout(dialog.getContext());
 		fl.setVisibility(View.VISIBLE);
@@ -357,6 +358,61 @@ public class SimpleWebViewDialog extends DialogFragment implements OnKeyListener
 		dialog.hide();
 		
 		return dialog;
+	}
+
+	/**
+	 * 使窗口全屏
+	 * @param _window
+	 */
+	@SuppressLint("NewApi")
+	public static void addFullScreenFeatureInWindow(final Window _window) {
+		//全屏
+		_window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		//去除 android 虚拟按键
+		int visibilityFlag = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+		if (Build.VERSION.SDK_INT >= 16)
+		{
+			visibilityFlag |= View.SYSTEM_UI_FLAG_FULLSCREEN
+					| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+					| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+					;
+			
+			if (Build.VERSION.SDK_INT >= 19)
+			{
+				visibilityFlag |= View.SYSTEM_UI_FLAG_IMMERSIVE
+						| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+						| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+						;
+			}
+			
+		}
+		
+		//修复输入框输入之后, 输入法退出但是虚拟按键没有自动退出的 bug
+		_window.getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+			@Override
+			public void onSystemUiVisibilityChange(int visibility) {
+				int visibilityFlag = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+				
+				if (Build.VERSION.SDK_INT >= 16)
+				{
+					visibilityFlag |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+							| View.SYSTEM_UI_FLAG_FULLSCREEN
+							| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+							| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+							;
+				}
+				if (Build.VERSION.SDK_INT >= 19)
+				{
+					visibilityFlag |= View.SYSTEM_UI_FLAG_IMMERSIVE
+							| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+							| View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+							;
+				}
+				_window.getDecorView().setSystemUiVisibility(visibilityFlag);
+			}
+		});
+		
+		_window.getDecorView().setSystemUiVisibility(visibilityFlag);
 	}
 
 	@Override
