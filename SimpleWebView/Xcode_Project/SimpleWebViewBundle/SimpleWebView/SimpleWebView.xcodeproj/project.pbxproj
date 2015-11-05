@@ -257,11 +257,15 @@
 		5785128A1BAA68FD00D40709 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yeqing Lu (2Q2X46E5D6)";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SimpleWebView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9e350ea3-e620-4a09-a6d4-6765eb4b86cf";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -269,11 +273,15 @@
 		5785128B1BAA68FD00D40709 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Yeqing Lu (2Q2X46E5D6)";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = SimpleWebView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "9e350ea3-e620-4a09-a6d4-6765eb4b86cf";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -297,6 +305,7 @@
 				5785128B1BAA68FD00D40709 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
